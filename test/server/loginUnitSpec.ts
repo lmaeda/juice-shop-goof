@@ -56,7 +56,7 @@ describe('routes/login', () => {
   })
 
   it('should return totp_token_required when user has TOTP enabled', async () => {
-    const user = { id: 2, email: 'totp@juice-sh.op', totpSecret: 'base32secret' }
+    const user = { id: 2, email: 'totp@juice-sh.op', totpSecret: process.env.TOTP_SECRET }
     sinon.stub(models.sequelize, 'query').resolves(user)
     sinon.stub(security, 'authorize').returns('tmp-token')
 
