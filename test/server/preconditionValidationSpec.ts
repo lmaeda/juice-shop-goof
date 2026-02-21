@@ -16,12 +16,16 @@ describe('preconditionValidation', () => {
   describe('checkIfRunningOnSupportedNodeVersion', () => {
     const supportedVersion = require('./../../package.json').engines.node
 
-    it('should define the supported semver range as 16 - 20', () => {
-      expect(supportedVersion).to.equal('16 - 20')
+    it('should define the supported semver range as 16 - 24', () => {
+      expect(supportedVersion).to.equal('16 - 24')
       expect(semver.validRange(supportedVersion)).to.not.equal(null)
     })
 
     it('should accept a supported version', () => {
+      expect(checkIfRunningOnSupportedNodeVersion('24.0.0')).to.equal(true)
+      expect(checkIfRunningOnSupportedNodeVersion('23.0.0')).to.equal(true)
+      expect(checkIfRunningOnSupportedNodeVersion('22.0.0')).to.equal(true)
+      expect(checkIfRunningOnSupportedNodeVersion('21.0.0')).to.equal(true)
       expect(checkIfRunningOnSupportedNodeVersion('20.0.0')).to.equal(true)
       expect(checkIfRunningOnSupportedNodeVersion('19.6.0')).to.equal(true)
       expect(checkIfRunningOnSupportedNodeVersion('18.1.0')).to.equal(true)
@@ -30,7 +34,7 @@ describe('preconditionValidation', () => {
     })
 
     it('should fail for an unsupported version', () => {
-      expect(checkIfRunningOnSupportedNodeVersion('21.0.0')).to.equal(false)
+      expect(checkIfRunningOnSupportedNodeVersion('25.0.0')).to.equal(false)
       expect(checkIfRunningOnSupportedNodeVersion('15.9.0')).to.equal(false)
       expect(checkIfRunningOnSupportedNodeVersion('14.0.0')).to.equal(false)
       expect(checkIfRunningOnSupportedNodeVersion('13.13.0')).to.equal(false)
